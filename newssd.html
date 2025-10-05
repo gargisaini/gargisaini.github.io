@@ -609,6 +609,38 @@ Important Links: <a href="https://intranet.iiit.ac.in/offices/static/files/Alman
 
 	<!-- Code injected by live-server -->
 <script>
+
+	 // Helper: classify event target type
+    function getEventObject(el) {
+      if (el.tagName === "IMG") return "image";
+      if (el.tagName === "A") return "link";
+      if (el.tagName === "BUTTON") return "button";
+      if (el.tagName === "P" || el.tagName === "SPAN" || el.tagName === "H1" || el.tagName === "H2" || el.tagName === "H3") return "text";
+      if (el.tagName === "TABLE" || el.tagName === "TR" || el.tagName === "TD" || el.tagName === "TH") return "table";
+      if (el.tagName === "SELECT") return "dropdown";
+      return el.tagName.toLowerCase();
+    }
+
+    // Log function
+    function logEvent(type, target) {
+      const timestamp = new Date().toISOString();
+      const eventObj = getEventObject(target);
+      console.log({
+        timestamp,
+        type_of_event: type,
+        event_object: eventObj
+      });
+    }
+
+    // Capture page view on load
+    window.addEventListener("load", () => {
+      logEvent("view", document.body);
+    });
+
+    // Capture clicks on the whole page
+    document.addEventListener("click", (e) => {
+      logEvent("click", e.target);
+    });
   
 	// <![CDATA[  <-- For SVG support
 	if ('WebSocket' in window) {
